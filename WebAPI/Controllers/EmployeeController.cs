@@ -5,25 +5,22 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WebAPI.Entity;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [EnableCors("*", "*", "*")]
-    [AllowAnonymous]
-    public class UserController : ApiController
+    public class EmployeeController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(List<VMLogin>))]
-        public HttpResponseMessage GetUsersList()
+        [ResponseType(typeof(List<Employees>))]
+        public HttpResponseMessage GetEmployeesList()
         {
             using (DBEntities dBEntities = new DBEntities())
             {
-                var data = dBEntities.Logins.Select(s =>
-                 new VMLogin { UserID = s.id, Name = s.Name, Password = s.Password, IsActive = s.IsActive }).ToList();//.FirstOrDefault();
+                var data = dBEntities.employees.Select(s =>
+                 new Employees { EmployeeID = s.employee_id, Name = s.Name, Age = s.Age, Gender = s.Gender, Email = s.Email, Salary = s.Salary }).ToList();//.FirstOrDefault();
                 return new HttpResponseMessage()
                 {
                     Content = new StringContent(JArray.FromObject(data).ToString(), Encoding.UTF8, "application/json")
@@ -33,21 +30,16 @@ namespace WebAPI.Controllers
 
         [HttpPost]
         [ResponseType(typeof(int))]
-        public IHttpActionResult SaveUser(dynamic user)
+        public IHttpActionResult SaveEmployee(dynamic employee)
         {
             try
             {
+
                 using (DBEntities dBEntities = new DBEntities())
                 {
 
-                    dBEntities.Logins.Add(
-                        new Login
-                        {
-                            id = Guid.NewGuid(),
-                            Name = user.Name,
-                            Password = user.Password,
-                            IsActive = user.IsActive
-                        });
+                    dBEntities.employees.Add(
+                        new employee { First_name = employee.Name, last_name = employee.Name, Name = employee.Name, Age = employee.Age, Email = employee.Email, Salary = employee.Salary, Gender = employee.Gender });
                     return Ok(dBEntities.SaveChanges());
                 }
             }
@@ -71,26 +63,30 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public void ModifyUser(dynamic user, Guid id)
+        public void ModifyEmployee(dynamic employee, int id)
         {
             using (DBEntities dBEntities = new DBEntities())
             {
-                var data = dBEntities.Logins.Where(s => s.id == id).First();
-                data.Name = user.Name;
-                data.Password = user.Password;
-                data.IsActive = user.IsActive;
+                var data = dBEntities.employees.Where(s => s.employee_id == id).First();
+                data.First_name = employee.Name;
+                data.last_name = employee.Name;
+                data.Name = employee.Name;
+                data.Age = employee.Age;
+                data.Email = employee.Email;
+                data.Salary = employee.Salary;
+                data.Gender = employee.Gender;
                 dBEntities.SaveChanges();
             }
         }
 
         [HttpDelete]
         [ResponseType(typeof(int))]
-        public IHttpActionResult DeleteUser(Guid id)
+        public IHttpActionResult DeleteEmployee(int id)
         {
             using (DBEntities dBEntities = new DBEntities())
             {
-                dynamic data = dBEntities.Logins.Find(id);
-                dBEntities.Logins.Remove(data);
+                dynamic data = dBEntities.employees.Find(id);
+                dBEntities.employees.Remove(data);
                 return Ok(dBEntities.SaveChanges());
             }
         }
