@@ -8,7 +8,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    public class RoleController : ApiController
+    public class RoleController : BaseController
     {
         [HttpGet]
         [ResponseType(typeof(List<Roles>))]

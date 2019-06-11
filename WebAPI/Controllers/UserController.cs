@@ -12,9 +12,8 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [EnableCors("*", "*", "*")]
     [AllowAnonymous]
-    public class UserController : ApiController
+    public class UserController : BaseController
     {
         [HttpGet]
         [ResponseType(typeof(List<VMLogin>))]
@@ -71,7 +70,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public void ModifyUser(dynamic user, Guid id)
+        [ResponseType(typeof(int))]
+        public IHttpActionResult ModifyUser(dynamic user, Guid id)
         {
             using (DBEntities dBEntities = new DBEntities())
             {
@@ -79,7 +79,7 @@ namespace WebAPI.Controllers
                 data.Name = user.Name;
                 data.Password = user.Password;
                 data.IsActive = user.IsActive;
-                dBEntities.SaveChanges();
+               return Ok(dBEntities.SaveChanges());
             }
         }
 

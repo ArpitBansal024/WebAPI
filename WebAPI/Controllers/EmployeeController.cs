@@ -20,7 +20,16 @@ namespace WebAPI.Controllers
             using (DBEntities dBEntities = new DBEntities())
             {
                 var data = dBEntities.employees.Select(s =>
-                 new Employees { EmployeeID = s.employee_id, Name = s.Name, Age = s.Age, Gender = s.Gender, Email = s.Email, Salary = s.Salary }).ToList();//.FirstOrDefault();
+                 new Employees
+                 {
+                     EmployeeID = s.employee_id,
+                     Name = s.Name,
+                     Age = s.Age,
+                     Gender = s.Gender,
+                     Email = s.Email,
+                     Salary = s.Salary,
+                     DOB = s.DOB
+                 }).ToList();//.FirstOrDefault();
                 return new HttpResponseMessage()
                 {
                     Content = new StringContent(JArray.FromObject(data).ToString(), Encoding.UTF8, "application/json")
@@ -34,12 +43,21 @@ namespace WebAPI.Controllers
         {
             try
             {
-
                 using (DBEntities dBEntities = new DBEntities())
                 {
 
                     dBEntities.employees.Add(
-                        new employee { First_name = employee.Name, last_name = employee.Name, Name = employee.Name, Age = employee.Age, Email = employee.Email, Salary = employee.Salary, Gender = employee.Gender });
+                        new employee
+                        {
+                            First_name = employee.Name,
+                            last_name = employee.Name,
+                            Name = employee.Name,
+                            Age = employee.Age,
+                            Email = employee.Email,
+                            Salary = employee.Salary,
+                            Gender = employee.Gender,
+                            DOB = employee.DOB
+                        });
                     return Ok(dBEntities.SaveChanges());
                 }
             }
@@ -75,6 +93,7 @@ namespace WebAPI.Controllers
                 data.Email = employee.Email;
                 data.Salary = employee.Salary;
                 data.Gender = employee.Gender;
+                data.DOB = employee.DOB;
                 dBEntities.SaveChanges();
             }
         }

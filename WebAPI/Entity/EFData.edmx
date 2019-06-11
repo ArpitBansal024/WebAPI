@@ -36,6 +36,7 @@
           <Property Name="Email" Type="varchar" MaxLength="250" />
           <Property Name="Age" Type="int" />
           <Property Name="Gender" Type="varchar" MaxLength="50" />
+          <Property Name="DOB" Type="date" />
         </EntityType>
         <EntityType Name="employees1">
           <Key>
@@ -327,6 +328,7 @@ FROM [dbo].[tblEmp_Ref] AS [tblEmp_Ref]</DefiningQuery>
           <Property Name="Age" Type="Int32" />
           <Property Name="Gender" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Emp_Detail" Relationship="TestDemoModel.FK_Emp_Detail_employees" FromRole="employee" ToRole="Emp_Detail" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK_Emp_Detail_employees">
           <End Type="TestDemoModel.employee" Role="employee" Multiplicity="0..1" />
@@ -453,6 +455,7 @@ FROM [dbo].[tblEmp_Ref] AS [tblEmp_Ref]</DefiningQuery>
           <EntitySetMapping Name="employees">
             <EntityTypeMapping TypeName="TestDemoModel.employee">
               <MappingFragment StoreEntitySet="employees">
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
                 <ScalarProperty Name="Gender" ColumnName="Gender" />
                 <ScalarProperty Name="Age" ColumnName="Age" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

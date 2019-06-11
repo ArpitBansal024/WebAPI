@@ -27,6 +27,7 @@ namespace WebAPI.Entity
         public string Email { get; set; }
         public Nullable<int> Age { get; set; }
         public string Gender { get; set; }
+        public Nullable<System.DateTime> DOB { get; set; }
     
         public virtual ICollection<Emp_Detail> Emp_Detail { get; set; }
     }
