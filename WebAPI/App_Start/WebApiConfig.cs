@@ -13,7 +13,6 @@ namespace WebAPI
              var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
-
             // Web API routes
             config.MapHttpAttributeRoutes();
             // Web API routes

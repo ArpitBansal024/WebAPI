@@ -81,7 +81,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public void ModifyEmployee(dynamic employee, int id)
+        [ResponseType(typeof(int))]
+        public IHttpActionResult ModifyEmployee(dynamic employee, int id)
         {
             using (DBEntities dBEntities = new DBEntities())
             {
@@ -94,7 +95,7 @@ namespace WebAPI.Controllers
                 data.Salary = employee.Salary;
                 data.Gender = employee.Gender;
                 data.DOB = employee.DOB;
-                dBEntities.SaveChanges();
+                return Ok(dBEntities.SaveChanges());
             }
         }
 

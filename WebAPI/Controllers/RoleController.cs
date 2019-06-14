@@ -57,14 +57,15 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
-        public void ModifyRole(dynamic role, int id)
+        [ResponseType(typeof(int))]
+        public IHttpActionResult ModifyRole(dynamic role, int id)
         {
             using (DBEntities dBEntities = new DBEntities())
             {
                 var data = dBEntities.Roles.Where(s => s.Role_ID == id).First();
                 data.Name = role.Name;
                 data.Description = role.Description;
-                dBEntities.SaveChanges();
+                return Ok(dBEntities.SaveChanges());
             }
         }
 

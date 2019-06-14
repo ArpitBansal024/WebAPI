@@ -8,7 +8,6 @@ using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebAPI.Entity;
-using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
