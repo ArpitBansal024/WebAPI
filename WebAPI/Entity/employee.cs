@@ -11,7 +11,9 @@ namespace WebAPI.Entity
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using WebAPI.CustomAttributes;
+
     public partial class employee
     {
         public employee()
@@ -24,7 +26,11 @@ namespace WebAPI.Entity
         public string First_name { get; set; }
         public Nullable<decimal> Salary { get; set; }
         public string Name { get; set; }
+
+        [EmailValidation(ErrorMessage = "Not a Valid Email")]
         public string Email { get; set; }
+
+        [Range(0, 100, ErrorMessage = "Age Range Must be Between 0 to 100")]
         public Nullable<int> Age { get; set; }
         public string Gender { get; set; }
         public Nullable<System.DateTime> DOB { get; set; }

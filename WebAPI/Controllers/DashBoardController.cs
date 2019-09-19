@@ -19,6 +19,14 @@ namespace WebAPI.Controllers
         {
             using (DBEntities dBEntities = new DBEntities())
             {
+                var joinTEst = dBEntities.employees.Join(dBEntities.Emp_Detail,
+                    emp=>emp.employee_id,
+                    emp_dtl=>emp_dtl.Fk_employee_id,
+                    (emp,emp_dtl) => new {
+                        Emp_Name = emp.First_name,
+                        emp.Age,
+                        emp_dtl.Fk_employee_id
+                    });
               var data =  dBEntities.DashBoardCounts();
                 return new HttpResponseMessage()
                 {

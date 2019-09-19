@@ -12,7 +12,6 @@ namespace WebAPI.Controllers
     public class LoginController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(VMLogin))]
         public HttpResponseMessage CheckUser(string user, string pwd)
         {
             using (DBEntities dBEntities = new DBEntities())
@@ -52,6 +51,12 @@ namespace WebAPI.Controllers
                  return data;
                 // return Ok(data);
             }
+        }
+
+        [HttpGet]
+        public void TestAPI()
+        {
+
         }
     }
 }

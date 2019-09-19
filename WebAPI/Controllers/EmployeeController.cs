@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
@@ -11,13 +13,13 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    public class EmployeeController : ApiController
+    public class EmployeeController : BaseController
     {
         [HttpGet]
         [ResponseType(typeof(List<Employees>))]
         public HttpResponseMessage GetEmployeesList()
         {
-            using (DBEntities dBEntities = new DBEntities())
+                using (DBEntities dBEntities = new DBEntities())
             {
                 var data = dBEntities.employees.Select(s =>
                  new Employees
@@ -84,18 +86,39 @@ namespace WebAPI.Controllers
         [ResponseType(typeof(int))]
         public IHttpActionResult ModifyEmployee(dynamic employee, int id)
         {
-            using (DBEntities dBEntities = new DBEntities())
+            try
             {
-                var data = dBEntities.employees.Where(s => s.employee_id == id).First();
-                data.First_name = employee.Name;
-                data.last_name = employee.Name;
-                data.Name = employee.Name;
-                data.Age = employee.Age;
-                data.Email = employee.Email;
-                data.Salary = employee.Salary;
-                data.Gender = employee.Gender;
-                data.DOB = employee.DOB;
-                return Ok(dBEntities.SaveChanges());
+                using (DBEntities dBEntities = new DBEntities())
+                {
+                    var data = dBEntities.employees.Where(s => s.employee_id == id).First();
+                    data.First_name = employee.Name;
+                    data.last_name = employee.Name;
+                    data.Name = employee.Name;
+                    data.Age = employee.Age;
+                    data.Email = employee.Email;
+                    data.Salary = employee.Salary;
+                    data.Gender = employee.Gender;
+                    data.DOB = employee.DOB;
+                    return Ok(dBEntities.SaveChanges());
+                }
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                //Exception raise = dbEx;
+                //foreach (var validationErrors in dbEx.EntityValidationErrors)
+                //{
+                //    foreach (var validationError in validationErrors.ValidationErrors)
+                //    {
+                //        string message = string.Format("{0}:{1}",
+                //            validationErrors.Entry.Entity.ToString(),
+                //            validationError.ErrorMessage);
+                //        // raise a new exception nesting  
+                //        // the current instance as InnerException  
+                //        raise = new InvalidOperationException(message, raise);
+                //    }
+                //}
+                //throw raise;
+                return NotFound();
             }
         }
 
